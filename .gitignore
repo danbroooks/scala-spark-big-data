@@ -13,4 +13,6 @@ dist
 /.project
 /RUNNING_PID
 /.settings
-
+wikipedia/src/main/resources/wikipedia/wikipedia.dat
+derby.log
+metastore_db/
