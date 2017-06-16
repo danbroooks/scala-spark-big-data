@@ -13,6 +13,7 @@ dist
 /.project
 /RUNNING_PID
 /.settings
+stackoverflow/src/main/resources/stackoverflow/stackoverflow.csv
 wikipedia/src/main/resources/wikipedia/wikipedia.dat
 derby.log
 metastore_db/
