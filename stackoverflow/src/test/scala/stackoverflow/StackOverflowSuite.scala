@@ -12,7 +12,6 @@ import java.io.File
 @RunWith(classOf[JUnitRunner])
 class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
 
-
   lazy val testObject = new StackOverflow {
     override val langs =
       List(
@@ -34,5 +33,34 @@ class StackOverflowSuite extends FunSuite with BeforeAndAfterAll {
     assert(instantiatable, "Can't instantiate a StackOverflow object")
   }
 
+  test("calculateMedian") {
+    val single = Array(7)
+    assert(StackOverflow.calculateMedian(single) == 7)
+    val double = Array(2, 1)
+    assert(StackOverflow.calculateMedian(double) == 1.5)
+    val multi = Array(7, 1, 9, 5)
+    assert(StackOverflow.calculateMedian(multi) == 6)
+  }
 
+  test("single") {
+    val vectors = StackOverflow.sc.parallelize(List((500000, 31), (500000, 55)))
+    val means = Array((500000, 13))
+    var results: Array[(String, Double, Int, Int)] = testObject.clusterResults(means, vectors)
+
+    testObject.printResults(results)
+    println(results(0))
+    assert(results.contains("Scala", 100, 2, 43))
+  }
+
+  test("cluster") {
+    val vectors = StackOverflow.sc.parallelize(List( (450000, 39),(500000, 31),(150000,1),(150000,10),(500000, 55),(150000,2) ,(150000,22)))
+    val means = Array((500000, 13),(150000,10))
+    var results: Array[(String, Double, Int, Int)] = testObject.clusterResults(means, vectors)
+
+    testObject.printResults(results)
+    println(results(0))
+    println(results(1))
+    assert(results.contains("Python", 100.0, 4, 6))
+    assert(results.contains("Scala", 66.66666666666666, 3, 39))
+  }
 }
